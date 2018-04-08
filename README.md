@@ -1,1 +1,1 @@
-# incube8-react-template
+#React + Redux Todo list
