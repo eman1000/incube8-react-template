@@ -1,9 +1,11 @@
 //LIBRARIES
 import update from "immutability-helper";
+import { Promise } from "bluebird";
 import constants from "./actionConstants";
 const {
   ADD_TODO,
-  UPDATE_TODO
+  UPDATE_TODO,
+  TOGGLE_LOADER
 } = constants;
 
 // Keep track of ticket id
@@ -13,16 +15,30 @@ let id = 0;
 
 //add todo 
 export function addTodo(payload){
-  return {
-    type:ADD_TODO,
-    payload
-  };
+  return(dispatch)=>{
+    dispatch(toggleLoader(true));
+    Promise.delay(2000).then(function() {
+      dispatch({
+        type:ADD_TODO,
+        payload
+      });
+    }).then(()=>{
+      dispatch(toggleLoader(false));
+    })
+  }
 }
 
 //update todo 
 export function updateTodo(payload){
   return {
     type:UPDATE_TODO,
+    payload
+  };
+}
+
+export function toggleLoader(payload){
+  return {
+    type:TOGGLE_LOADER,
     payload
   };
 }
@@ -73,9 +89,19 @@ function handleUpdateTodo(state, action){
   });
 }
 
+//handle toggle loader
+function handleToggleLoader(state, action){
+  return update(state, {
+    loading:{
+      $set:action.payload
+    }
+  });
+}
+
 const ACTION_HANDLERS = {
   ADD_TODO:handleAddTodo,
-  UPDATE_TODO:handleUpdateTodo
+  UPDATE_TODO:handleUpdateTodo,
+  TOGGLE_LOADER:handleToggleLoader
 };
 
 const initialState = {
@@ -83,7 +109,8 @@ const initialState = {
     id: id++,
     desc: 'Have fun with Online Test',
     status: 'todo'
-  }]
+  }],
+  loading:false
 };
 
 export default function HomeReducer (state = initialState, action){

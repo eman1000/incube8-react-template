@@ -31,6 +31,10 @@ class Home extends React.Component{
         <button style={{ cursor: "pointer" }} onClick={()=>{this.props.addTodo(inputBox.value);inputBox.value = '';}}>
           ADD
         </button>
+        {
+          this.props.loading && 
+          <span>...</span>
+        }
         <br />
         <br />
         <div style={styles.container}>

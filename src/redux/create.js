@@ -6,16 +6,15 @@ import {routerMiddleware} from "react-router-redux";
 
 import thunk from "redux-thunk";
 
-console.log("reducers", reducers)
 
 const log =  createLogger({
   diff: true,
   collapsed: true
 });
 
-//const middleware = [thunk];
+const middleware = [thunk];
 
-  middleware.push(log);
+//middleware.push(log);
 
 const initialState = {};
 const reducer = combineReducers({...reducers});

@@ -10,7 +10,8 @@ import {
 } from "../module";
 
 const mapStateToProps = (state) => ({
-  tickets:state.home.tickets || []
+  tickets:state.home.tickets || [],
+  loading:state.home.loading
 });
 
 const mapActionCreators = {
